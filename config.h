@@ -2,7 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 2;        /* gaps between windows */
+static const unsigned int gappx     = 3;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -33,9 +33,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class         instance    title       tags mask   switchtotag    isfloating   monitor */
+	{ "Alacritty",   NULL,       NULL,       1 << 0,     1,              0,           -1 },
+	{ "Gimp",        NULL,       NULL,       1 << 6,     1,              0,           -1 },
+	{ "Firefox",     NULL,       NULL,       1 << 1,     1,              0,           -1 },
 };
 
 /* layout(s) */
@@ -104,8 +105,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_5,                                   4)
 	TAGKEYS(                        XK_6,                                   5)
 	TAGKEYS(                        XK_7,                                   6)
-	TAGKEYS(                        XK_8,                                   7)
-	TAGKEYS(                        XK_9,                                   8)
 	{ MODKEY|ShiftMask,             XK_c,               quit,               {0} },
 };
 
