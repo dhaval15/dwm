@@ -68,12 +68,18 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *exitcmd[] = { "rofi_exit", NULL };
 static const char *dmenucmd[] = { "rofi", "-show", "drun", "-theme", "apps", "-nb", NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
-static const char *briupcmd[]  = { "xbacklight", "-inc", "10", NULL };
-static const char *bridowncmd[]  = { "xbacklight","-dec", "10", NULL };
+static const char *briupcmd[]  = { "dwm_brightness_up", NULL };
+static const char *bridowncmd[]  = { "dwm_brightness_down", NULL };
+static const char *volupcmd[]  = { "dwm_volume_up", NULL };
+static const char *voldowncmd[]  = { "dwm_volume_down", NULL };
+static const char *voltogglecmd[]  = { "dwm_volume_toggle", NULL };
 static const char *openproject[]  = { "open_project", NULL };
 
 static Key keys[] = {
 	/* modifier                     key                 function            argument */
+	{ 0,                            XK_F1,              spawn,              {.v = voltogglecmd } },
+	{ 0,                            XK_F2,              spawn,              {.v = voldowncmd } },
+	{ 0,                            XK_F3,              spawn,              {.v = volupcmd } },
 	{ 0,                            XK_F11,             spawn,              {.v = bridowncmd } },
 	{ 0,                            XK_F12,             spawn,              {.v = briupcmd } },
 	{ MODKEY,                       XK_space,           spawn,              {.v = dmenucmd } },
@@ -129,7 +135,9 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
+	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
