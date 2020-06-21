@@ -36,12 +36,30 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	 /*                                                         switch  is                  is
-	 * class         instance     title             tag mask    totag   floating  term      swallow  monitor*/
-	{ "Alacritty",   NULL,        NULL,             1 << 0,     1,      0,        1, 	1,	 -1 },
-	{ "Gimp",        NULL,        NULL,             1 << 6,     1,      0,        0,        1,       -1 },
-	{ "firefox",     NULL,        NULL,             1 << 1,     1,      0,        0,        0,       -1 },
-	{ NULL,          NULL,        "Event Tester",   1,          1,      0,        0,        1,       -1 },
+	 /*                                                           switch  is                  no
+	 * class           instance     title             tag mask    totag   floating  term      swallow  monitor*/
+	// Design : 7
+	{ "Gimp",          NULL,        NULL,             1 << 6,     1,      0,        0,        1,       -1 },
+	{ "Blender",       NULL,        NULL,             1 << 6,     1,      0,        0,        1,       -1 },
+	// Media : 6
+	{ "vlc",           NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
+	{ "Popcorn-Time",  NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
+	// Writing : 5
+	{ "Alacritty",     NULL,        "Feather",        1 << 4,     1,      0,        0,        1,       -1 },
+	{ "Typora",   	   NULL,	NULL,             1 << 4,     1,      0,        0,        1,       -1 },
+	// Files : 4
+	{ "Nemo",     	   NULL,        NULL,             1 << 3,     1,      0,        0,        1,       -1 },
+	// Coding : 3
+	{ "emacs",     	   NULL,        NULL,             1 << 2,     1,      0,        0,        1,       -1 },
+	{ "Alacritty",     NULL,        "HashCode",       1 << 2,     1,      0,        0,        1,       -1 },
+	// Web : 2
+	{ "firefox",       NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
+	{ "Chromium",      NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
+	// Misc : Any
+	{ "Alacritty",     NULL,        "Term",           0,          1,      0,        1, 	  1,	   -1 },
+	{ NULL,            NULL,        "Event Tester",   0,          1,      0,        0,        1,       -1 },
+	// Terminal : 1
+	{ "Alacritty",     NULL,        NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
 };
 
 /* layout(s) */
@@ -68,17 +86,19 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *exitcmd[] = { "rofi_exit", NULL };
-static const char *dmenucmd[] = { "rofi", "-show", "drun", "-theme", "apps", NULL };
-static const char *wificmd[] = { "networkmanager_dmenu", "-theme", "wifi", NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
-static const char *briupcmd[]  = { "dwm_brightness_up", NULL };
-static const char *bridowncmd[]  = { "dwm_brightness_down", NULL };
-static const char *volupcmd[]  = { "dwm_volume_up", NULL };
-static const char *voldowncmd[]  = { "dwm_volume_down", NULL };
-static const char *voltogglecmd[]  = { "dwm_volume_toggle", NULL };
-static const char *openproject[]  = { "rofi_projects", NULL };
-static const char *dmenucalc[]  = { "dmenu_calc", NULL };
+
+static const char *exitcmd[]         = { "rofi_exit", NULL };
+static const char *dmenucmd[]        = { "rofi", "-show", "drun", "-theme", "apps", NULL };
+static const char *wificmd[]         = { "networkmanager_dmenu", "-theme", "wifi", NULL };
+static const char *termcmd[]         = { "alacritty", NULL };
+static const char *instanttermcmd[]  = { "alacritty", "-t", "Term", NULL };
+static const char *briupcmd[]        = { "dwm_brightness_up", NULL };
+static const char *bridowncmd[]      = { "dwm_brightness_down", NULL };
+static const char *volupcmd[]        = { "dwm_volume_up", NULL };
+static const char *voldowncmd[]      = { "dwm_volume_down", NULL };
+static const char *voltogglecmd[]    = { "dwm_volume_toggle", NULL };
+static const char *openproject[]     = { "rofi_projects", NULL };
+static const char *dmenucalc[]       = { "dmenu_calc", NULL };
 
 static Key keys[] = {
 	/* modifier                     key                 function            argument */
@@ -93,6 +113,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_semicolon,       spawn,              {.v = openproject } },
 	{ MODKEY,                       XK_Escape,          spawn,              {.v = exitcmd } },
 	{ MODKEY,                       XK_Return,          spawn,              {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_Return,          spawn,              {.v = instanttermcmd } },
 	{ MODKEY,                       XK_b,               togglebar,          {0} },
 	{ MODKEY,                       XK_Right,           focusstack,         {.i = +1 } },
 	{ MODKEY,                       XK_Left,            focusstack,         {.i = -1 } },
@@ -101,7 +122,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_h,               setmfact,           {.f = -0.05} },
 	{ MODKEY,                       XK_l,               setmfact,           {.f = +0.05} },
 	{ MODKEY,                       XK_s,               togglesticky,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_Return,          zoom,               {0} },
 	{ MODKEY,                       XK_Tab,             view,               {0} },
 	{ MODKEY|ShiftMask,             XK_q,               killclient,         {0} },
 	{ MODKEY,                       XK_t,               setlayout,          {.v = &layouts[0]} },

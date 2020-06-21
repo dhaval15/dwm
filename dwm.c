@@ -383,6 +383,7 @@ applyrules(Client *c)
 				c->switchtotag = selmon->tagset[selmon->seltags];
 				view(&a);
 			}
+			break; // First rule match only.
 		}
 	}
 	if (ch.res_class)
