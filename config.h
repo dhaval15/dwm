@@ -36,11 +36,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class         instance           title       tags mask   switchtotag    isfloating   terminal  noswallow  monitor */
-	{ "Alacritty",   NULL,              NULL,       1 << 0,     1,              0,          1, 	  1,	      -1 },
-	{ "Gimp",        NULL,              NULL,       1 << 6,     1,              0,          0,        1,         -1 },
-	{ "firefox",     NULL,              NULL,       1 << 1,     1,              0,          0,        0,         -1 },
-	{ NULL,          NULL,    "Event Tester",       1,          1,              0,          0,        1,         -1 },
+	 /*                                                         switch  is                  is
+	 * class         instance     title             tag mask    totag   floating  term      swallow  monitor*/
+	{ "Alacritty",   NULL,        NULL,             1 << 0,     1,      0,        1, 	1,	 -1 },
+	{ "Gimp",        NULL,        NULL,             1 << 6,     1,      0,        0,        1,       -1 },
+	{ "firefox",     NULL,        NULL,             1 << 1,     1,      0,        0,        0,       -1 },
+	{ NULL,          NULL,        "Event Tester",   1,          1,      0,        0,        1,       -1 },
 };
 
 /* layout(s) */
@@ -50,9 +51,8 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	{ "TILE",      tile },    /* first entry is default */
+	{ "MAX",      monocle },    /* no layout function means floating behavior */
 };
 
 /* key definitions */
@@ -105,7 +105,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,             view,               {0} },
 	{ MODKEY|ShiftMask,             XK_q,               killclient,         {0} },
 	{ MODKEY,                       XK_t,               setlayout,          {.v = &layouts[0]} },
-	{ MODKEY,	                XK_m,               togglemaximize,     {0} },
+	{ MODKEY,	                XK_m,               setlayout,          {.v = &layouts[1]} },
 	{ MODKEY,                       XK_p,               view_adjacent,      {.i = -1} },
 	{ MODKEY,                       XK_n,               view_adjacent,      {.i = +1} },
 	{ MODKEY,                       XK_f,               togglefullscr,      {0} },
