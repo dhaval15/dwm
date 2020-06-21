@@ -24,7 +24,6 @@ static const char *colors[][3]      = {
 static const char *const autostart[] = {
 	"nitrogen","--restore",NULL,
 	"dwmblocks",NULL,
-	//"sh", "-c", "while :; do dwm_status -; sleep 1; done", NULL,
 	NULL /* terminate */
 };
 
@@ -50,7 +49,7 @@ static const Rule rules[] = {
 	// Files : 4
 	{ "Nemo",     	   NULL,        NULL,             1 << 3,     1,      0,        0,        1,       -1 },
 	// Coding : 3
-	{ "emacs",     	   NULL,        NULL,             1 << 2,     1,      0,        0,        1,       -1 },
+	{ "Emacs",     	   NULL,        NULL,             1 << 2,     1,      0,        0,        1,       -1 },
 	{ "Alacritty",     NULL,        "HashCode",       1 << 2,     1,      0,        0,        1,       -1 },
 	// Web : 2
 	{ "firefox",       NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
@@ -63,7 +62,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.5;  /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
@@ -138,6 +137,8 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_Up,     	    moveresize,         {.v = "0x 0y 0w -10h" } },
 	{ MODKEY|ControlMask,           XK_Right,  	    moveresize,         {.v = "0x 0y 10w 0h" } },
 	{ MODKEY|ControlMask,           XK_Left,   	    moveresize,         {.v = "0x 0y -10w 0h" } },
+	{ MODKEY|ControlMask,           XK_period,   	    boundresize,        {.i = 10 } },
+	{ MODKEY|ControlMask,           XK_comma,     	    boundresize,        {.i = -10} },
 	{ MODKEY,                       XK_0,               view,               {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,               tag,                {.ui = ~0 } },
 	//{ MODKEY,                       XK_comma,           focusmon,           {.i = -1 } },
