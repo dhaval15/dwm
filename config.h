@@ -36,10 +36,11 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class         instance    title       tags mask   switchtotag    isfloating   terminal  noswallow  monitor */
-	{ "Alacritty",   NULL,       NULL,       1 << 0,     1,              0,          1, 	   1,	      -1 },
-	{ "Gimp",        NULL,       NULL,       1 << 6,     1,              0,          0,        1,         -1 },
-	{ "firefox",     NULL,       NULL,       1 << 1,     1,              0,          0,        0,         -1 },
+	/* class         instance           title       tags mask   switchtotag    isfloating   terminal  noswallow  monitor */
+	{ "Alacritty",   NULL,              NULL,       1 << 0,     1,              0,          1, 	  1,	      -1 },
+	{ "Gimp",        NULL,              NULL,       1 << 6,     1,              0,          0,        1,         -1 },
+	{ "firefox",     NULL,              NULL,       1 << 1,     1,              0,          0,        0,         -1 },
+	{ NULL,          NULL,    "Event Tester",       1,          1,              0,          0,        1,         -1 },
 };
 
 /* layout(s) */
@@ -76,7 +77,8 @@ static const char *bridowncmd[]  = { "dwm_brightness_down", NULL };
 static const char *volupcmd[]  = { "dwm_volume_up", NULL };
 static const char *voldowncmd[]  = { "dwm_volume_down", NULL };
 static const char *voltogglecmd[]  = { "dwm_volume_toggle", NULL };
-static const char *openproject[]  = { "open_project", NULL };
+static const char *openproject[]  = { "rofi_projects", NULL };
+static const char *dmenucalc[]  = { "dmenu_calc", NULL };
 
 static Key keys[] = {
 	/* modifier                     key                 function            argument */
@@ -87,6 +89,7 @@ static Key keys[] = {
 	{ 0,                            XK_F12,             spawn,              {.v = briupcmd } },
 	{ MODKEY,                       XK_space,           spawn,              {.v = dmenucmd } },
 	{ MODKEY,                       XK_w,               spawn,              {.v = wificmd } },
+	{ MODKEY,                       XK_quoteright,      spawn,              {.v = dmenucalc } },
 	{ MODKEY,                       XK_semicolon,       spawn,              {.v = openproject } },
 	{ MODKEY,                       XK_Escape,          spawn,              {.v = exitcmd } },
 	{ MODKEY,                       XK_Return,          spawn,              {.v = termcmd } },
@@ -94,7 +97,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_j,               focusstack,         {.i = +1 } },
 	{ MODKEY,                       XK_k,               focusstack,         {.i = -1 } },
 	{ MODKEY,                       XK_i,               incnmaster,         {.i = +1 } },
-	{ MODKEY,                       XK_d,               incnmaster,         {.i = -1 } },
+	{ MODKEY,                       XK_u,               incnmaster,         {.i = -1 } },
 	{ MODKEY,                       XK_h,               setmfact,           {.f = -0.05} },
 	{ MODKEY,                       XK_l,               setmfact,           {.f = +0.05} },
 	{ MODKEY,                       XK_s,               togglesticky,       {.f = +0.05} },
