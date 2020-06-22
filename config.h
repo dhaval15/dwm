@@ -8,13 +8,13 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
-static const char *fonts[]          = { "SauceCodePro Nerd Font:size=9" };
 static const char dmenufont[]       = "monospace:size=10";
+static const char font[]            = "Icons 10";
 static const char col_gray1[]       = "#231F20";
 static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#FFCC77";
+static const char col_gray3[]       = "#FFCC99";
 static const char col_gray4[]       = "#231F20";
-static const char col_cyan[]        = "#FFCC77";
+static const char col_cyan[]        = "#FFCC99";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -28,7 +28,7 @@ static const char *const autostart[] = {
 };
 
 /* tagging */
-static const char *tags[] = { " ", " ", " ", " ", " ", " ", " "};
+static const char *tags[] = { "", "", "", "", "", "", ""};
 
 static const Rule rules[] = {
 	/* xprop(1):
