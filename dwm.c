@@ -580,7 +580,7 @@ buttonpress(XEvent *e)
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
 			click = ClkLtSymbol;
-		else {
+		else if (ev->x > (x = selmon->ww - TEXTW(stext) + lrpad)) {
 			click = ClkStatusText;
 			char *text = rawstext;
 			int i = -1;
@@ -883,8 +883,6 @@ void
 drawbar(Monitor *m)
 {
 	int x, w, tw = 0;
-	int boxs = drw->font->h / 9;
-	int boxw = drw->font->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
@@ -1991,6 +1989,7 @@ sigchld(int unused)
 void
 sigdwmblocks(const Arg *arg)
 {
+
 	union sigval sv;
 	sv.sival_int = (dwmblockssig << 8) | arg->i;
 	if (!dwmblockspid)
