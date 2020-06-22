@@ -64,7 +64,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeUn }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeEmp, SchemeLay }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -578,9 +578,8 @@ buttonpress(XEvent *e)
 		if (i < LENGTH(tags)) {
 			click = ClkTagBar;
 			arg.ui = 1 << i;
-		} else if (ev->x < x + blw)
-			click = ClkLtSymbol;
-		else if (ev->x > (x = selmon->ww - TEXTW(stext) + lrpad)) {
+		}
+		else if (ev->x > (x = selmon->ww - TEXTW(stext) + lrpad - blw) && ev->x < selmon->ww - blw) {
 			click = ClkStatusText;
 			char *text = rawstext;
 			int i = -1;
@@ -599,6 +598,8 @@ buttonpress(XEvent *e)
 				}
 			}
 		}
+		else if(ev->x > selmon->ww -blw)
+			click = ClkLtSymbol;
 	} else if ((c = wintoclient(ev->window))) {
  		if (focusonwheel || (ev->button != Button4 && ev->button != Button5))
  			focus(c);
@@ -886,11 +887,18 @@ drawbar(Monitor *m)
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
+	/* Layout */
+
+	w = blw = TEXTW(m->ltsymbol);
+	x = selmon->ww - w;
+	drw_setscheme(drw, scheme[SchemeLay]);
+	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0, False);
+
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		tw = TEXTWM(stext) - lrpad + 2; /* 2px right padding */
-		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0, True);
+		tw = TEXTWM(stext) - lrpad + 2 + w; /* 2px right padding */
+		drw_text(drw, m->ww - tw, 0, tw - w, bh, 0, stext, 0, True);
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -901,14 +909,10 @@ drawbar(Monitor *m)
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel :occ & 1 << i ? SchemeNorm : SchemeUn]);
+		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeLay :occ & 1 << i ? SchemeNorm : SchemeEmp]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i, False);
 		x += w;
 	}
-	w = blw = TEXTW(m->ltsymbol);
-	drw_setscheme(drw, scheme[SchemeNorm]);
-	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0, False);
-
 	if ((w = m->ww - tw - x) > bh) {
 			drw_setscheme(drw, scheme[SchemeNorm]);
 			drw_rect(drw, x, 0, w, bh, 1, 1);

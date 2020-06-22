@@ -11,19 +11,16 @@ static const int user_bh            = 22;        /* 0 means that dwm will calcul
 static const int focusonwheel       = 0;
 static const char dmenufont[]       = "monospace:size=10";
 static const char font[]            = "Icons 10";
-static const char col_unfg[]        = "#554433";
-static const char col_unbg[]        = "#231F20";
-static const char col_unborder[]    = "#231F20";
-static const char col_gray1[]       = "#231F20";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#FFCC99";
-static const char col_gray4[]       = "#231F20";
-static const char col_cyan[]        = "#FFCC99";
+static const char gruv_back[]       = "#231F20";
+static const char gruv_text1[]      = "#554433";
+static const char gruv_text2[]      = "#BA8866";
+static const char gruv_text3[]      = "#FFCC99";
 static const char *colors[][3]      = {
-	/*               fg         bg         border        */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2     },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan      },
-	[SchemeUn]   = { col_unfg,  col_unbg,  col_unborder  },
+	/*               fg          bg          border       */
+	[SchemeNorm] = { gruv_text3, gruv_back,  gruv_text1   },
+	[SchemeSel]  = { gruv_back,  gruv_text3, gruv_text3   },
+	[SchemeEmp]  = { gruv_text1, gruv_back,  gruv_back    },
+	[SchemeLay]  = { gruv_back,  gruv_text2, gruv_back    },
 };
 
 static const char *const autostart[] = {
