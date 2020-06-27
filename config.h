@@ -7,9 +7,8 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int user_bh            = 22;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const int user_bh            = 20;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const int focusonwheel       = 0;
-static const char dmenufont[]       = "monospace:size=10";
 static const char font[]            = "Icons 10";
 static const char gruv_back[]       = "#231F20";
 static const char gruv_text1[]      = "#554433";
@@ -17,7 +16,7 @@ static const char gruv_text2[]      = "#BA8866";
 static const char gruv_text3[]      = "#FFCC99";
 static const char *colors[][3]      = {
 	/*               fg          bg          border       */
-	[SchemeNorm] = { gruv_text3, gruv_back,  gruv_text1   },
+	[SchemeNorm] =  { gruv_text2, gruv_back,  gruv_text1   },
 	[SchemeSel]  = { gruv_back,  gruv_text3, gruv_text3   },
 	[SchemeEmp]  = { gruv_text1, gruv_back,  gruv_back    },
 	[SchemeLay]  = { gruv_back,  gruv_text2, gruv_back    },
@@ -46,18 +45,18 @@ static const Rule rules[] = {
 	{ "vlc",           NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
 	{ "Popcorn-Time",  NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
 	// Writing : 5
-	{ "Alacritty",     NULL,        "Feather",        1 << 4,     1,      0,        0,        1,       -1 },
+	{ "Alacritty",     "Feather",   NULL,	          1 << 4,     1,      0,        0,        1,       -1 },
 	{ "Typora",   	   NULL,	NULL,             1 << 4,     1,      0,        0,        1,       -1 },
 	// Files : 4
 	{ "Nemo",     	   NULL,        NULL,             1 << 3,     1,      0,        0,        1,       -1 },
 	// Coding : 3
 	{ "Emacs",     	   NULL,        NULL,             1 << 2,     1,      0,        0,        1,       -1 },
-	{ "Alacritty",     NULL,        "HashCode",       1 << 2,     1,      0,        0,        1,       -1 },
+	{ "Alacritty",     "HashCode",  NULL,       	  1 << 2,     1,      0,        0,        1,       -1 },
 	// Web : 2
 	{ "firefox",       NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
 	{ "Chromium",      NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
 	// Misc : Any
-	{ "Alacritty",     NULL,        "Term",           0,          1,      0,        1, 	  1,	   -1 },
+	{ "Alacritty",     "Terminal",  NULL,             0,          1,      0,        1, 	  1,	   -1 },
 	{ NULL,            NULL,        "Event Tester",   0,          1,      0,        0,        1,       -1 },
 	// Terminal : 1
 	{ "Alacritty",     NULL,        NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
@@ -89,10 +88,11 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 
 static const char *exitcmd[]         = { "rofi_exit", NULL };
-static const char *dmenucmd[]        = { "rofi", "-show", "drun", "-theme", "apps", NULL };
+static const char *dmenucmd[]        = { "dmenu_run",NULL };
+static const char *roficmd[]         = { "rofi", "-show", "drun", "-theme", "apps", NULL };
 static const char *wificmd[]         = { "networkmanager_dmenu", "-theme", "wifi", NULL };
 static const char *termcmd[]         = { "alacritty", NULL };
-static const char *instanttermcmd[]  = { "alacritty", "-t", "Term", NULL };
+static const char *instanttermcmd[]  = { "alacritty","--class","Terminal", NULL };
 static const char *briupcmd[]        = { "dwm_brightness_up", NULL };
 static const char *bridowncmd[]      = { "dwm_brightness_down", NULL };
 static const char *volupcmd[]        = { "dwm_volume_up", NULL };
@@ -100,6 +100,7 @@ static const char *voldowncmd[]      = { "dwm_volume_down", NULL };
 static const char *voltogglecmd[]    = { "dwm_volume_toggle", NULL };
 static const char *openproject[]     = { "rofi_projects", NULL };
 static const char *dmenucalc[]       = { "dmenu_calc", NULL };
+static const char *dmenutmux[]       = { "tmuxdmenu", NULL };
 
 static Key keys[] = {
 	/* modifier                     key                 function            argument */
@@ -108,7 +109,9 @@ static Key keys[] = {
 	{ 0,                            XK_F3,              spawn,              {.v = volupcmd } },
 	{ 0,                            XK_F11,             spawn,              {.v = bridowncmd } },
 	{ 0,                            XK_F12,             spawn,              {.v = briupcmd } },
-	{ MODKEY,                       XK_space,           spawn,              {.v = dmenucmd } },
+	{ MODKEY,                       XK_space,           spawn,              {.v = roficmd } },
+	{ Mod1Mask,                     XK_space,           spawn,              {.v = dmenutmux } },
+	{ MODKEY,                       XK_r,               spawn,              {.v = dmenucmd } },
 	{ MODKEY,                       XK_w,               spawn,              {.v = wificmd } },
 	{ MODKEY,                       XK_quoteright,      spawn,              {.v = dmenucalc } },
 	{ MODKEY,                       XK_semicolon,       spawn,              {.v = openproject } },
@@ -126,7 +129,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,             view,               {0} },
 	{ MODKEY|ShiftMask,             XK_q,               killclient,         {0} },
 	{ MODKEY,                       XK_t,               setlayout,          {.v = &layouts[0]} },
-	{ MODKEY,	                XK_m,               setlayout,          {.v = &layouts[1]} },
 	{ MODKEY,                       XK_p,               view_adjacent,      {.i = -1} },
 	{ MODKEY,                       XK_n,               view_adjacent,      {.i = +1} },
 	{ MODKEY,                       XK_f,               togglefullscr,      {0} },
@@ -140,13 +142,18 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_Right,  	    moveresize,         {.v = "0x 0y 10w 0h" } },
 	{ MODKEY|ControlMask,           XK_Left,   	    moveresize,         {.v = "0x 0y -10w 0h" } },
 	{ MODKEY|ControlMask,           XK_period,   	    boundresize,        {.i = 10 } },
-	{ MODKEY|ControlMask,           XK_comma,     	    boundresize,        {.i = -10} },
+	{ MODKEY|ControlMask,           XK_comma,     	    boundresize,        {.i = -10 } },
+	{ MODKEY|ShiftMask, 		XK_KP_End,          movetoborder,       {.v = "-1 1" } },
+	{ MODKEY|ShiftMask, 		XK_KP_Down,         movetoborder,       {.v = "0 1" } },
+	{ MODKEY|ShiftMask, 		XK_KP_Next,         movetoborder,       {.v = "1 1" } },
+	{ MODKEY|ShiftMask, 		XK_KP_Left,         movetoborder,       {.v = "-1 0" } },
+	{ MODKEY|ShiftMask, 		XK_KP_Begin,        movetoborder,       {.v = "0 0" } },
+	{ MODKEY|ShiftMask, 		XK_KP_Right,        movetoborder,       {.v = "1 0" } },
+	{ MODKEY|ShiftMask, 		XK_KP_Home,         movetoborder,       {.v = "-1 -1" } },
+	{ MODKEY|ShiftMask, 		XK_KP_Up,           movetoborder,       {.v = "0 -1" } },
+	{ MODKEY|ShiftMask, 		XK_KP_Prior,        movetoborder,       {.v = "1 -1" } },
 	{ MODKEY,                       XK_0,               view,               {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,               tag,                {.ui = ~0 } },
-	//{ MODKEY,                       XK_comma,           focusmon,           {.i = -1 } },
-	//{ MODKEY,                       XK_period,          focusmon,           {.i = +1 } },
-	//{ MODKEY|ShiftMask,             XK_comma,           tagmon,             {.i = -1 } },
-	//{ MODKEY|ShiftMask,             XK_period,          tagmon,             {.i = +1 } },
 	{ MODKEY,                       XK_minus,           setgaps,            {.i = -1 } },
 	{ MODKEY,                       XK_equal,           setgaps,            {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,           setgaps,            {.i = 0  } },
