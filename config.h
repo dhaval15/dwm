@@ -16,7 +16,7 @@ static const char gruv_text2[]      = "#BA8866";
 static const char gruv_text3[]      = "#FFCC99";
 static const char *colors[][3]      = {
 	/*               fg          bg          border       */
-	[SchemeNorm] =  { gruv_text2, gruv_back,  gruv_text1   },
+	[SchemeNorm] = { gruv_text2, gruv_back,  gruv_text1   },
 	[SchemeSel]  = { gruv_back,  gruv_text3, gruv_text3   },
 	[SchemeEmp]  = { gruv_text1, gruv_back,  gruv_back    },
 	[SchemeLay]  = { gruv_back,  gruv_text2, gruv_back    },
@@ -25,6 +25,7 @@ static const char *colors[][3]      = {
 static const char *const autostart[] = {
 	"nitrogen","--restore",NULL,
 	"dwmblocks",NULL,
+	"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1",NULL, 
 	NULL /* terminate */
 };
 
@@ -43,6 +44,7 @@ static const Rule rules[] = {
 	{ "Blender",       NULL,        NULL,             1 << 6,     1,      0,        0,        1,       -1 },
 	// Media : 6
 	{ "vlc",           NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
+	{ "mpv",           NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
 	{ "Popcorn-Time",  NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
 	// Writing : 5
 	{ "Alacritty",     "Feather",   NULL,	          1 << 4,     1,      0,        0,        1,       -1 },
@@ -53,6 +55,7 @@ static const Rule rules[] = {
 	{ "Emacs",     	   NULL,        NULL,             1 << 2,     1,      0,        0,        1,       -1 },
 	{ "Alacritty",     "HashCode",  NULL,       	  1 << 2,     1,      0,        0,        1,       -1 },
 	// Web : 2
+	{ "Alacritty",     "Mail",   	NULL,	          1 << 1,     1,      0,        0,        1,       -1 },
 	{ "firefox",       NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
 	{ "Chromium",      NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
 	// Misc : Any
@@ -92,6 +95,8 @@ static const char *dmenucmd[]        = { "dmenu_run",NULL };
 static const char *roficmd[]         = { "rofi", "-show", "drun", "-theme", "apps", NULL };
 static const char *wificmd[]         = { "networkmanager_dmenu", "-theme", "wifi", NULL };
 static const char *termcmd[]         = { "alacritty", NULL };
+static const char *filescmd[]        = { "alacritty","-e","ranger", NULL };
+static const char *filesguicmd[]     = { "nemo", NULL };
 static const char *instanttermcmd[]  = { "alacritty","--class","Terminal", NULL };
 static const char *briupcmd[]        = { "dwm_brightness_up", NULL };
 static const char *bridowncmd[]      = { "dwm_brightness_down", NULL };
@@ -99,6 +104,7 @@ static const char *volupcmd[]        = { "dwm_volume_up", NULL };
 static const char *voldowncmd[]      = { "dwm_volume_down", NULL };
 static const char *voltogglecmd[]    = { "dwm_volume_toggle", NULL };
 static const char *openproject[]     = { "rofi_projects", NULL };
+static const char *rofifinder[]      = { "rofi_finder", NULL};
 static const char *dmenucalc[]       = { "dmenu_calc", NULL };
 static const char *dmenutmux[]       = { "tmuxdmenu", NULL };
 
@@ -118,6 +124,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Escape,          spawn,              {.v = exitcmd } },
 	{ MODKEY,                       XK_Return,          spawn,              {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return,          spawn,              {.v = instanttermcmd } },
+	{ MODKEY,             		XK_e,               spawn,              {.v = filescmd } },
+	{ MODKEY|ShiftMask,             XK_e,          	    spawn,              {.v = filesguicmd } },
+	{ MODKEY,             		XK_s,               spawn,              {.v = rofifinder } },
 	{ MODKEY,                       XK_b,               togglebar,          {0} },
 	{ MODKEY,                       XK_Right,           focusstack,         {.i = +1 } },
 	{ MODKEY,                       XK_Left,            focusstack,         {.i = -1 } },
@@ -125,7 +134,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_k,               incnmaster,         {.i = -1 } },
 	{ MODKEY,                       XK_h,               setmfact,           {.f = -0.05} },
 	{ MODKEY,                       XK_l,               setmfact,           {.f = +0.05} },
-	{ MODKEY,                       XK_s,               togglesticky,       {.f = +0.05} },
+	{ MODKEY,                       XK_z,               togglesticky,       {.f = +0.05} },
 	{ MODKEY,                       XK_Tab,             view,               {0} },
 	{ MODKEY|ShiftMask,             XK_q,               killclient,         {0} },
 	{ MODKEY,                       XK_t,               setlayout,          {.v = &layouts[0]} },
