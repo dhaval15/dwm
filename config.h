@@ -59,11 +59,11 @@ static const Rule rules[] = {
 	{ "firefox",       NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
 	{ "Chromium",      NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
 	// Misc : Any
-	{ "Alacritty",     "Terminal",  NULL,             0,          1,      0,        1, 	  1,	   -1 },
+	{ "Alacritty",     "Terminal",  NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
 	{ NULL,            NULL,        "Event Tester",   0,          1,      0,        0,        1,       -1 },
 	// Terminal : 1     
 	{ "GNU Octave",    NULL,        NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
-	{ "Alacritty",     NULL,        NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
+	//{ "Alacritty",     NULL,        NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
 };
 
 /* layout(s) */
@@ -95,10 +95,10 @@ static const char *exitcmd[]         = { "rofi_exit", NULL };
 static const char *dmenucmd[]        = { "dmenu_run",NULL };
 static const char *roficmd[]         = { "rofi", "-show", "drun", "-theme", "apps", NULL };
 static const char *wificmd[]         = { "networkmanager_dmenu", "-theme", "wifi", NULL };
-static const char *termcmd[]         = { "alacritty", NULL };
+static const char *instanttermcmd[]  = { "alacritty", NULL };
 static const char *filescmd[]        = { "alacritty","-e","ranger", NULL };
 static const char *filesguicmd[]     = { "nemo", NULL };
-static const char *instanttermcmd[]  = { "alacritty","--class","Terminal", NULL };
+static const char *termcmd[]  	     = { "alacritty","--class","Terminal", NULL };
 static const char *briupcmd[]        = { "dwm_brightness_up", NULL };
 static const char *bridowncmd[]      = { "dwm_brightness_down", NULL };
 static const char *volupcmd[]        = { "dwm_volume_up", NULL };
