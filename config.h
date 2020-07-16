@@ -44,7 +44,7 @@ static const Rule rules[] = {
 	{ "Blender",       NULL,        NULL,             1 << 6,     1,      0,        0,        1,       -1 },
 	// Media : 6
 	{ "vlc",           NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
-	{ "mpv",           NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
+	{ "mpv",           NULL,	NULL,		  1 << 5,     1,      0,	0,        0,	   -1 },
 	{ "Popcorn-Time",  NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
 	// Writing : 5
 	{ "Alacritty",     "Feather",   NULL,	          1 << 4,     1,      0,        0,        1,       -1 },
