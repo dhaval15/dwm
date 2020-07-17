@@ -37,33 +37,32 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	 /*                                                           switch  is                  no
-	 * class           instance     title             tag mask    totag   floating  term      swallow  monitor*/
-	// Design : 7
-	{ "Gimp",          NULL,        NULL,             1 << 6,     1,      0,        0,        1,       -1 },
-	{ "Blender",       NULL,        NULL,             1 << 6,     1,      0,        0,        1,       -1 },
-	// Media : 6
-	{ "vlc",           NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
-	{ "mpv",           NULL,	NULL,		  1 << 5,     1,      0,	0,        0,	   -1 },
-	{ "Popcorn-Time",  NULL,	NULL,		  1 << 5,     1,      0,	0,        1,	   -1 },
-	// Writing : 5
-	{ "Alacritty",     "Feather",   NULL,	          1 << 4,     1,      0,        0,        1,       -1 },
-	{ "Typora",   	   NULL,	NULL,             1 << 4,     1,      0,        0,        1,       -1 },
-	// Files : 4
-	{ "Nemo",     	   NULL,        NULL,             1 << 3,     1,      0,        0,        1,       -1 },
-	// Coding : 3
-	{ "Emacs",     	   NULL,        NULL,             1 << 2,     1,      0,        0,        1,       -1 },
-	{ "Alacritty",     "HashCode",  NULL,       	  1 << 2,     1,      0,        0,        1,       -1 },
-	// Web : 2
-	{ "Alacritty",     "Mail",   	NULL,	          1 << 1,     1,      0,        0,        1,       -1 },
-	{ "firefox",       NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
-	{ "Chromium",      NULL,        NULL,             1 << 1,     1,      0,        0,        1,       -1 },
-	// Misc : Any
-	{ "Alacritty",     "Terminal",  NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
-	{ NULL,            NULL,        "Event Tester",   0,          1,      0,        0,        1,       -1 },
-	// Terminal : 1     
-	{ "GNU Octave",    NULL,        NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
-	//{ "Alacritty",     NULL,        NULL,             1 << 0,     1,      0,        1, 	  1,	   -1 },
+	 /*                                                           switch  is        is          	   no
+	 * class           instance     title             tag mask    totag   floating  sticky   term      swallow  monitor*/
+	// Design : 7                                                                            
+	{ "Gimp",          NULL,        NULL,             1 << 6,     1,      0,        0,       0,        1,       -1 },
+	{ "Blender",       NULL,        NULL,             1 << 6,     1,      0,        0,       0,        1,       -1 },
+	// Media : 6                                                                             
+	{ "vlc",           NULL,	NULL,		  1 << 5,     1,      0,	0,       0,        1,	    -1 },
+	{ "mpv",           NULL,	NULL,		  1 << 5,     1,      0,	0,       0,        0,	    -1 },
+	{ "Popcorn-Time",  NULL,	NULL,		  1 << 5,     1,      0,	0,       0,        1,	    -1 },
+	// Writing : 5                                                                           
+	{ "Alacritty",     "Feather",   NULL,	          1 << 4,     1,      0,        0,       0,        1,       -1 },
+	{ "Typora",   	   NULL,	NULL,             1 << 4,     1,      0,        0,       0,        1,       -1 },
+	// Files : 4                                                                             
+	{ "Nemo",     	   NULL,        NULL,             1 << 3,     1,      0,        0,       0,        1,       -1 },
+	// Coding : 3                                                                            
+	{ "Emacs",     	   NULL,        NULL,             1 << 2,     1,      0,        0,       0,        1,       -1 },
+	{ "Alacritty",     "HashCode",  NULL,       	  1 << 2,     1,      0,        0,       0,        1,       -1 },
+	// Web : 2                                                                               
+	{ "Alacritty",     "Mail",   	NULL,	          1 << 1,     1,      0,        0,       0,        1,       -1 },
+	{ "firefox",       NULL,        NULL,             1 << 1,     1,      0,        0,       0,        1,       -1 },
+	{ "Chromium",      NULL,        NULL,             1 << 1,     1,      0,        0,       0,        1,       -1 },
+	// Misc : Any                                                                            
+	{ "Alacritty",     "Terminal",  NULL,             1 << 0,     1,      0,        0,       1, 	   1,	    -1 },
+	{ NULL,            NULL,        "Event Tester",   0,          1,      0,        0,       0,        1,       -1 },
+	// Terminal : 1                                                                          
+	{ "GNU Octave",    NULL,        NULL,             1 << 0,     1,      0,        0,       1, 	   1,	    -1 },
 };
 
 /* layout(s) */
