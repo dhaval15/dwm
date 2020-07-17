@@ -60,6 +60,7 @@ static const Rule rules[] = {
 	{ "Chromium",      NULL,        NULL,             1 << 1,     1,      0,        0,       0,        1,       -1 },
 	// Misc : Any                                                                            
 	{ "Alacritty",     "Terminal",  NULL,             1 << 0,     1,      0,        0,       1, 	   1,	    -1 },
+	{ "Dragon-drag-and-drop",NULL,  NULL,             1 << 0,     1,      0,        1,       1, 	   1,	    -1 },
 	{ NULL,            NULL,        "Event Tester",   0,          1,      0,        0,       0,        1,       -1 },
 	// Terminal : 1                                                                          
 	{ "GNU Octave",    NULL,        NULL,             1 << 0,     1,      0,        0,       1, 	   1,	    -1 },
