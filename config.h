@@ -108,6 +108,7 @@ static const char *openproject[]     = { "rofi_projects", NULL };
 static const char *rofifinder[]      = { "rofi_finder", NULL};
 static const char *dmenucalc[]       = { "dmenu_calc", NULL };
 static const char *dmenutmux[]       = { "tmuxdmenu", NULL };
+static const char *switchapps[]      = { "skippy-xd", NULL };
 
 static Key keys[] = {
 	/* modifier                     key                 function            argument */
@@ -118,6 +119,7 @@ static Key keys[] = {
 	{ 0,                            XK_F12,             spawn,              {.v = briupcmd } },
 	{ MODKEY,                       XK_space,           spawn,              {.v = roficmd } },
 	{ Mod1Mask,                     XK_space,           spawn,              {.v = dmenutmux } },
+	{ Mod1Mask,                     XK_Tab,             spawn,              {.v = switchapps } },
 	{ MODKEY,                       XK_r,               spawn,              {.v = dmenucmd } },
 	{ MODKEY,                       XK_w,               spawn,              {.v = wificmd } },
 	{ MODKEY,                       XK_quoteright,      spawn,              {.v = dmenucalc } },
