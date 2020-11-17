@@ -25,6 +25,7 @@ static const char *colors[][3]      = {
 static const char *const autostart[] = {
 	"nitrogen","--restore",NULL,
 	"dwmblocks",NULL,
+	"speed_keys",NULL,
 	"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1",NULL, 
 	NULL /* terminate */
 };
@@ -47,6 +48,7 @@ static const Rule rules[] = {
 	{ "mpv",           NULL,	NULL,		  1 << 5,     1,      0,	0,       0,        0,	    -1 },
 	{ "Popcorn-Time",  NULL,	NULL,		  1 << 5,     1,      0,	0,       0,        1,	    -1 },
 	// Writing : 5                                                                           
+	{ "Zathura",       NULL,        NULL,	          1 << 4,     1,      0,        0,       0,        1,       -1 },
 	{ "Alacritty",     "Feather",   NULL,	          1 << 4,     1,      0,        0,       0,        1,       -1 },
 	{ "Typora",   	   NULL,	NULL,             1 << 4,     1,      0,        0,       0,        1,       -1 },
 	// Files : 4                                                                             
@@ -104,7 +106,7 @@ static const char *bridowncmd[]      = { "dwm_brightness_down", NULL };
 static const char *volupcmd[]        = { "dwm_volume_up", NULL };
 static const char *voldowncmd[]      = { "dwm_volume_down", NULL };
 static const char *voltogglecmd[]    = { "dwm_volume_toggle", NULL };
-static const char *openproject[]     = { "rofi_projects", NULL };
+static const char *openproject[]     = { "projects_dmenu", NULL };
 static const char *rofifinder[]      = { "rofi_finder", NULL};
 static const char *dmenucalc[]       = { "dmenu_calc", NULL };
 static const char *dmenutmux[]       = { "tmuxdmenu", NULL };
