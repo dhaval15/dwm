@@ -25,6 +25,7 @@ static const char *colors[][3]      = {
 static const char *const autostart[] = {
 	"nitrogen","--restore",NULL,
 	"dwmblocks",NULL,
+	"wmname", "LG3D", NULL,
 	"speed_keys",NULL,
 	"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1",NULL, 
 	NULL /* terminate */
@@ -48,7 +49,8 @@ static const Rule rules[] = {
 	{ "mpv",           NULL,	NULL,		  1 << 5,     1,      0,	0,       0,        0,	    -1 },
 	{ "Popcorn-Time",  NULL,	NULL,		  1 << 5,     1,      0,	0,       0,        1,	    -1 },
 	// Writing : 5                                                                           
-	{ "Zathura",       NULL,        NULL,	          1 << 4,     1,      0,        0,       0,        1,       -1 },
+	/* { "Zathura",       NULL,        NULL,	          1 << 4,     1,      0,        0,       0,        0,       -1 }, */
+	{ "Writer",        NULL,   	NULL,	          1 << 4,     1,      0,        0,       0,        1,       -1 },
 	{ "Alacritty",     "Feather",   NULL,	          1 << 4,     1,      0,        0,       0,        1,       -1 },
 	{ "Typora",   	   NULL,	NULL,             1 << 4,     1,      0,        0,       0,        1,       -1 },
 	// Files : 4                                                                             
@@ -59,10 +61,13 @@ static const Rule rules[] = {
 	// Web : 2                                                                               
 	{ "Alacritty",     "Mail",   	NULL,	          1 << 1,     1,      0,        0,       0,        1,       -1 },
 	{ "firefox",       NULL,        NULL,             1 << 1,     1,      0,        0,       0,        1,       -1 },
+	{ "qutebrowser","qutebrowser",        NULL,       1 << 1,     1,      0,        0,       0,        1,       -1 },
 	{ "Chromium",      NULL,        NULL,             1 << 1,     1,      0,        0,       0,        1,       -1 },
 	// Misc : Any                                                                            
 	{ "Alacritty",     "Terminal",  NULL,             1 << 0,     1,      0,        0,       1, 	   1,	    -1 },
+	{ NULL,     NULL,  "Android Emulator - Pixel_3_API_29:5554",             0,     1,      1,        0,       0, 	   1,	    -1 },
 	{ "Dragon-drag-and-drop",NULL,  NULL,             1 << 0,     1,      0,        1,       1, 	   1,	    -1 },
+	{ "Yad",	   NULL,  	NULL,             0,          1,      1,        1,       0, 	   1,	    -1 },
 	{ NULL,            NULL,        "Event Tester",   0,          1,      0,        0,       0,        1,       -1 },
 	// Terminal : 1                                                                          
 	{ "GNU Octave",    NULL,        NULL,             1 << 0,     1,      0,        0,       1, 	   1,	    -1 },
@@ -71,7 +76,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.5;  /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -96,21 +101,26 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *exitcmd[]         = { "rofi_exit", NULL };
 static const char *dmenucmd[]        = { "dmenu_run",NULL };
 static const char *roficmd[]         = { "rofi", "-show", "drun", "-theme", "apps", NULL };
-static const char *wificmd[]         = { "networkmanager_dmenu", "-theme", "wifi", NULL };
-static const char *instanttermcmd[]  = { "alacritty", NULL };
+static const char *wificmd[]         = { "rofi_wifi",NULL };
+static const char *termcmd[]  	     = { "alacritty", NULL };
 static const char *filescmd[]        = { "alacritty","-e","ranger", NULL };
 static const char *filesguicmd[]     = { "nemo", NULL };
-static const char *termcmd[]  	     = { "alacritty","--class","Terminal", NULL };
+static const char *instanttermcmd[]  	     = { "alacritty","--class","Terminal", NULL };
+static const char *kittycmd[]  	     = { "kitty", NULL };
 static const char *briupcmd[]        = { "dwm_brightness_up", NULL };
 static const char *bridowncmd[]      = { "dwm_brightness_down", NULL };
 static const char *volupcmd[]        = { "dwm_volume_up", NULL };
 static const char *voldowncmd[]      = { "dwm_volume_down", NULL };
 static const char *voltogglecmd[]    = { "dwm_volume_toggle", NULL };
 static const char *openproject[]     = { "projects_dmenu", NULL };
-static const char *rofifinder[]      = { "rofi_finder", NULL};
+static const char *dmenuapps[]       = { "dmenu_apps", NULL};
 static const char *dmenucalc[]       = { "dmenu_calc", NULL };
-static const char *dmenutmux[]       = { "tmuxdmenu", NULL };
-static const char *switchapps[]      = { "skippy-xd", NULL };
+static const char *dmenuswitch[]     = { "dmenu_switch", NULL };
+static const char *bukurun[]         = { "buku_run", NULL };
+static const char *switchapps[]      = { "skippy-xd", "--config", "~/Dev/dots/skippy-xd.rc", NULL };
+static const char *screenshot[]      = { "screenshot", NULL };
+static const char *flutter_reload[]  = { "f", "hr", NULL };
+static const char *flutter_restart[] = { "f", "hR", NULL };
 
 static Key keys[] = {
 	/* modifier                     key                 function            argument */
@@ -119,11 +129,15 @@ static Key keys[] = {
 	{ 0,                            XK_F3,              spawn,              {.v = volupcmd } },
 	{ 0,                            XK_F11,             spawn,              {.v = bridowncmd } },
 	{ 0,                            XK_F12,             spawn,              {.v = briupcmd } },
+	{ 0,                            XK_Print,     	    spawn,              {.v = screenshot } },
 	{ MODKEY,                       XK_space,           spawn,              {.v = roficmd } },
-	{ Mod1Mask,                     XK_space,           spawn,              {.v = dmenutmux } },
+	{ Mod1Mask,                     XK_space,           spawn,              {.v = kittycmd } },
 	{ Mod1Mask,                     XK_Tab,             spawn,              {.v = switchapps } },
 	{ MODKEY,                       XK_r,               spawn,              {.v = dmenucmd } },
-	{ MODKEY,                       XK_w,               spawn,              {.v = wificmd } },
+	{ Mod1Mask,                     XK_r,               spawn,              {.v = flutter_reload } },
+	{ Mod1Mask|ShiftMask,           XK_r,               spawn,              {.v = flutter_restart } },
+	{ MODKEY,                       XK_w,               spawn,              {.v = bukurun } },
+	{ MODKEY|ShiftMask,             XK_w,               spawn,              {.v = wificmd } },
 	{ MODKEY,                       XK_quoteright,      spawn,              {.v = dmenucalc } },
 	{ MODKEY,                       XK_semicolon,       spawn,              {.v = openproject } },
 	{ MODKEY,                       XK_Escape,          spawn,              {.v = exitcmd } },
@@ -131,20 +145,21 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return,          spawn,              {.v = instanttermcmd } },
 	{ MODKEY,             		XK_e,               spawn,              {.v = filescmd } },
 	{ MODKEY|ShiftMask,             XK_e,          	    spawn,              {.v = filesguicmd } },
-	{ MODKEY,             		XK_s,               spawn,              {.v = rofifinder } },
+	{ MODKEY,             		XK_z,               spawn,              {.v = dmenuapps } },
 	{ MODKEY,                       XK_b,               togglebar,          {0} },
 	{ MODKEY,                       XK_Right,           focusstack,         {.i = +1 } },
 	{ MODKEY,                       XK_Left,            focusstack,         {.i = -1 } },
-	{ MODKEY,                       XK_j,               incnmaster,         {.i = +1 } },
-	{ MODKEY,                       XK_k,               incnmaster,         {.i = -1 } },
-	{ MODKEY,                       XK_h,               setmfact,           {.f = -0.05} },
-	{ MODKEY,                       XK_l,               setmfact,           {.f = +0.05} },
-	{ MODKEY,                       XK_z,               togglesticky,       {.f = +0.05} },
+	{ MODKEY,             		XK_h,               zoom,               {0} },
+	{ MODKEY|ShiftMask,             XK_j,               incnmaster,         {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,               incnmaster,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_h,               setmfact,           {.f = -0.05} },
+	{ MODKEY|ShiftMask,             XK_l,               setmfact,           {.f = +0.05} },
+	{ MODKEY,                       XK_s,               togglesticky,       {0} },
 	{ MODKEY,                       XK_Tab,             view,               {0} },
 	{ MODKEY|ShiftMask,             XK_q,               killclient,         {0} },
 	{ MODKEY,                       XK_t,               setlayout,          {.v = &layouts[0]} },
-	{ MODKEY,                       XK_p,               view_adjacent,      {.i = -1} },
-	{ MODKEY,                       XK_n,               view_adjacent,      {.i = +1} },
+	{ MODKEY,                       XK_k,               view_adjacent,      {.i = -1} },
+	{ MODKEY,                       XK_j,               view_adjacent,      {.i = +1} },
 	{ MODKEY,                       XK_f,               togglefullscr,      {0} },
 	{ MODKEY,                       XK_d,               togglefloating,     {0} },
 	{ MODKEY|ShiftMask,             XK_Down,   	    moveresize,         {.v = "0x 10y 0w 0h" } },
